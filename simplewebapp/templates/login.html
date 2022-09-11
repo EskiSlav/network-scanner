@@ -10,22 +10,13 @@
 
     <title>LoginSystem</title> 
     <style>
-        /* .maindiv {
-            width: 100%;
-            text-align: center;
-            margin-top: 150px;
+        .text {
+            color: azure;
         }
         form {
-            margin: auto; 
-            
             text-align: center;
         }
-        body {
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        label {
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        } */
+         
     </style>
 </head>
 <body>
@@ -48,13 +39,23 @@
           </div>
         </div>
       </nav>
-    <div class="maindiv">
-        Please, login to use this service
-        <form method="post">
+    <div class="text-success col-lg-4 col-lg-push-10" style="padding-top: 100px; margin: auto;">
+        <form method="post" class="bg-dark col-lg-12  center-block text-center" style="padding: 50px; display: inline-block;">
             {% csrf_token %}
-            {{ form.as_div }}
+            <div class="">
+                <label>Username</label>
+                <div class="pull-right">
+                    {{ form.username }}
+                </div>
+            </div>
+            <div>
+                <label>Password</label>
+                <div class="pull-right">
+                    {{ form.password }}
+                </div>
+            </div>
             <p style="color: red;">{{ message }}</p>
-            <input type="submit" value="Login"/>
+            <input type="submit" value="Login" class="btn btn-outline-success"/>
         </form>
     </div>
 </body>
