@@ -1,5 +1,5 @@
-<!doctype html>
 <html lang="en">
+  <!doctype html>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,8 +7,189 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <style>
+      html, body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .flex-row {
+        display: flex;
+        flex-direction: row;
+        height: 0;
+        flex-grow: 1;
+        bottom: 0;
 
-    <title>PythonGuides!</title>
+      }
+      
+      .messages-side {
+        flex-direction: column;
+        /* width: 70%; */
+        display: block;
+        display: flex;
+        flex-grow: 1;
+        float: right;
+        /* height: 100%; */
+      }
+      .sent-message {
+
+      }
+      .received-message {
+
+      }
+      .input-footer {
+        position: relative;
+        display: block;
+        text-align: center;
+        margin: 0 25vh 1.5rem 25vh;
+        
+        
+      }
+      .input {
+        width: 100%;
+        display: block;
+        margin: 0;
+        float: left;
+      }
+      .my-btn {
+        border: 1px solid rgb(201, 201, 201);
+        color: rgb(201, 201, 201);
+        float: right;
+        
+      }
+
+      .messages-wrapper {
+        margin: 10px 25vh;
+        overflow: auto;
+        /* height: 60vh; */
+      }
+      /* USERS SIDE */
+      
+      .users-side {
+        margin: 0;
+        padding: 0;
+        min-width: 275px;
+        /* width: 30%; */
+        display: block;
+        background-color: red;
+        float: left;
+        flex-grow: 1;
+        overflow: auto;
+        /* height: 60%; */
+      }
+      .user-info {
+        max-width: 85%;
+        min-width: 200px;
+        display: block;
+        margin: 0;
+        padding: 0;
+        float: left;
+      }
+      .user {
+        display: block;
+        min-width: 275px;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(230, 230, 230);
+        height: 75px;
+        border-bottom: 2px solid rgb(102, 102, 102);
+      }
+      .username{
+        background-color: rgb(208, 255, 196);
+        margin: 7px 0 0 0;
+        padding: 0px 15px;
+        min-width: 0px;
+        /* height: 50%; */
+        text-align: left;
+        vertical-align: middle;
+        font-weight:bold;
+        border-radius: 10px;
+      }
+      .small-message {
+        /* background-color: aquamarine; */
+        margin: 0;
+        padding: 9px 15px;
+        height: 50%;
+        font-size: small
+      }
+      .icon {
+        /* background-color: rgb(45, 51, 104); */
+
+        width: 75px;
+        min-width: 75px;
+        height: 75px;
+        display: block;
+        margin: 0;
+        padding: 0;
+        float: left;
+        border-radius: 100%; 
+      }
+      .icon-img {
+        width: 80%;
+        height: 80%;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        top: 10%;
+      }
+      .active-user {
+        background-color: rgb(0, 255, 153);
+      }
+      
+
+      /*  */
+      /* Chat containers */
+      .container {
+        border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px auto;
+      }
+
+      /* Darker chat container */
+      .darker {
+        border-color: #ccc;
+        background-color: #ddd;
+      }
+
+      /* Clear floats */
+      .container::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      /* Style images */
+      .container img {
+        float: left;
+        max-width: 60px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 50%;
+      }
+
+      /* Style the right image */
+      .container img.right {
+        float: right;
+        margin-left: 20px;
+        margin-right:0;
+      }
+
+      /* Style time text */
+      .time-right {
+        float: right;
+        color: #aaa;
+      }
+
+      /* Style time text */
+      .time-left {
+        float: left;
+        color: #999;
+      }
+    </style>
+    <title>Bot Manager</title>
   </head>
   <body>
     
@@ -37,19 +218,176 @@
         </div>
       </div>
     </nav>
+    
     <div class="container my-3">
-      <h1 style="text-align:center;">Welcome to Python Guides</h1>
+      <h1 style="text-align:center;">Welcome to the Admin Page</h1>
     </div>
 
-    <div class="card">
-      <div class="card-body">
-        <h3 style="text-align:center;">Thanks for landing on this page to know more about PythonGuides.com.</h3>
-        <br>
-        <h6>I welcome you to the website and hopefully, you got to learn something in Python. I started this website to share my finding and learnings in Python with you.</h6>
-        <h6>To keep things simple, I am trying to write a lot of articles on Python. Feel free to give your valuable comments and also share the articles if you are liking and hoping it will be helpful to someone.</h6>
-        <br>
-        <h2 style="text-align:center;">Also, Subscribe to Our YouTube Channel for FREE Python Video Tutorials.</h2>
+    <div class="flex-row">
+      <div class="users-side">
+        <div class="user active-user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">yardvlad</div>
+            <div class="small-message">Hey!!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">yardvlad</div>
+            <div class="small-message">Hey!!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">yardvlad</div>
+            <div class="small-message">Hey!!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">yardvlad</div>
+            <div class="small-message">Hey!!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">EskiSlav</div>
+            <div class="small-message">Hello There!</div>
+          </div>
+        </div>
+        <div class="user">
+          <div class="icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
+          </div>
+          <div class="user-info">
+            <div class="username">yardvlad</div>
+            <div class="small-message">Hey!!</div>
+          </div>
+        </div>
       </div>
+      <div class="messages-side" style="background-color: rgb(54, 105, 54);">
+        <div class="messages-wrapper">
+          <div class="container">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
+            <p>Hello. How are you today?</p>
+            <span class="time-right">11:00</span>
+          </div>
+          
+          <div class="container darker">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar" class="right">
+            <p>Hey! I'm fine. Thanks for asking!</p>
+            <span class="time-left">11:01</span>
+          </div>
+          
+          <div class="container">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
+            <p>Sweet! So, what do you wanna do today?</p>
+            <span class="time-right">11:02</span>
+          </div>
+          
+          <div class="container darker">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar" class="right">
+            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+            <span class="time-left">11:05</span>
+          </div>
+          <div class="container darker">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar" class="right">
+            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+            <span class="time-left">11:05</span>
+          </div>
+          <div class="container darker">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar" class="right">
+            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+            <span class="time-left">11:05</span>
+          </div>
+          <div class="container darker">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar" class="right">
+            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+            <span class="time-left">11:05</span>
+          </div>
+           
+          <div class="container">
+            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
+            <p>Sweet! So, what do you wanna do today?</p>
+            <span class="time-right">11:02</span>
+          </div>
+
+        </div>
+        <div class="input-footer">
+          <input class="input form-control me-2" placeholder="Message" aria-label="Message">
+          <button class="btn my-btn" type="submit">Send</button>
+        </div>
+      </div>
+    </div>    
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
