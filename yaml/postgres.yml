@@ -17,13 +17,13 @@ services:
       - "./db-config:/docker-entrypoint-initdb.d/"
       - "./my-postgres.conf:/etc/postresql/postgresql.conf"
    
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - "8080:80"
-    environment: 
-      PGADMIN_DEFAULT_EMAIL: "test@test.com"
-      PGADMIN_DEFAULT_PASSWORD: "8CxVmpzKwTe3cgZDP28p"
-      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports:
+  #     - "8080:80"
+  #   environment: 
+  #     PGADMIN_DEFAULT_EMAIL: "test@test.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "8CxVmpzKwTe3cgZDP28p"
+  #     PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
   
