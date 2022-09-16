@@ -6,7 +6,6 @@ COPY . .
 
 RUN apt update \
     && pip install --upgrade pip \
-    && rm -rf env \
     && pip install -r requirements.txt
 
 # ENTRYPOINT [ "docker-entrypoint.sh" ]
