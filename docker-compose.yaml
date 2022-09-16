@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+
+  # bot:
+  #   build: ./bot
+  
+  db:
+    build: ./postgres-db
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssword
+      # Creds for bot's DB
+      APP_DB_USER: db_user
+      APP_DB_PASS: fRt36viDyDhqc6a33qxH #previous password 
+      APP_DB_NAME: db
+    volumes:
+      - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
+
+  # web:
+  #   build: ./simplewebapp
+  #   ports:
+  #     - 8080:8080
+
+  python-seed:
+    build: ./python-seed
+    depends_on:
+      - db
