@@ -1,28 +1,37 @@
 import random
 from sys import argv, stdout
+from time import sleep
 from typing import OrderedDict
-import psycopg
+import psycopg2
 from faker import Faker
 import logging
+import os
 
 logging.basicConfig(level=logging.DEBUG, stream=stdout)
 
-POSSIBLE_STATES = ['ACTIVE', 'INACTIVE']
 faker = Faker('en')
+
+def is_inside_container():
+    if os.path.exists('/.dockerenv'):
+        return 1
+    return 0
+
 
 class PostgreSeeder:
 
     def __init__(self):
-        config = {
-            'user': 'db_user',
-            'password': 'fRt36viDyDhqc6a33qxH',
-            'host': 'localhost',
-            'port': '5432',
-            'dbname': 'db'
-        }
-        # host=localhost port=5432 dbname=db user=db_user password=fRt36viDyDhqc6a33qxH"
-        # leaving out the retry loop for the sake of simplicity
-        self.connection = psycopg.connect(**config)
+        host = "db" if is_inside_container() else "localhost"
+        connection_str = "host={} port=5432 dbname=db user=db_user password=fRt36viDyDhqc6a33qxH".format(host)
+        def _again(n=0):
+            try:
+                if n == 10:
+                    exit(1)
+                sleep(1)
+                n += 1
+                self.connection = psycopg2.connect(connection_str)
+            except:
+                _again(n)
+        _again()
         self.cursor = self.connection.cursor()
 
     def create_user_table(self):
