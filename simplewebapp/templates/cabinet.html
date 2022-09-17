@@ -225,115 +225,18 @@
 
     <div class="flex-row">
       <div class="users-side">
-        <div class="user active-user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
+        {% for user in users %}
         <div class="user">
           <div class="icon">
             <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
           </div>
           <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
+            <div class="username">{{ user.username }} ({{ user.id }})</div>
+            <div class="small-message">{{ user.first_name }} {{ user.last_name }}</div>
           </div>
         </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">yardvlad</div>
-            <div class="small-message">Hey!!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">yardvlad</div>
-            <div class="small-message">Hey!!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">yardvlad</div>
-            <div class="small-message">Hey!!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">yardvlad</div>
-            <div class="small-message">Hey!!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">EskiSlav</div>
-            <div class="small-message">Hello There!</div>
-          </div>
-        </div>
-        <div class="user">
-          <div class="icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" class="icon-img">
-          </div>
-          <div class="user-info">
-            <div class="username">yardvlad</div>
-            <div class="small-message">Hey!!</div>
-          </div>
-        </div>
-      </div>
+        {% endfor %}
+      </div>  
       <div class="messages-side" style="background-color: rgb(54, 105, 54);">
         <div class="messages-wrapper">
           <div class="container">
