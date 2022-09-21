@@ -7,9 +7,14 @@ from faker import Faker
 import logging
 import os
 
-logging.basicConfig(level=logging.DEBUG, stream=stdout)
+logging.basicConfig(level=logging.INFO, stream=stdout)
 
 faker = Faker('en')
+
+DB_USER = os.environ.get("DB_USER")
+DB_NAME = os.environ.get("DB_NAME")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_PORT = os.environ.get("DB_PORT")
 
 def is_inside_container():
     if os.path.exists('/.dockerenv'):
@@ -21,7 +26,8 @@ class PostgreSeeder:
 
     def __init__(self):
         host = "db" if is_inside_container() else "localhost"
-        connection_str = "host={} port=5432 dbname=db user=db_user password=fRt36viDyDhqc6a33qxH".format(host)
+        connection_str = "host={} port={} dbname={} user={} password={}"
+        connection_str = connection_str.format(host, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)
         def _again(n=0):
             try:
                 if n == 10:

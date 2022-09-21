@@ -2,7 +2,7 @@ FROM python:3.11.0rc2-alpine3.16
 
 WORKDIR /opt/opinov8bot/
 
-COPY . .
+COPY requirements.txt .
 
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev \
@@ -15,5 +15,15 @@ ENV DJANGO_DB_NAME=db
 ENV DJANGO_DB_PASSWORD=password
 ENV DJANGO_DB_PORT=5432
 
-CMD python ./manage.py runserver 8081
+EXPOSE 8081
+
+RUN apk add curl
+
+COPY . .
+
+CMD ./run.sh
+
+# CMD python ./manage.py migrate \
+#     # && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@myproject.com', '!Q1w2e3r4')" | python manage.py shell \
+#     && python manage.py runserver 8081
 
