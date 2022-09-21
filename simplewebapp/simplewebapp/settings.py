@@ -14,6 +14,16 @@ import os
 from pathlib import Path
 from re import template
 
+def is_inside_container():
+    if os.path.exists('/.dockerenv'):
+        return 1
+    return 0
+
+if is_inside_container():
+    DATABASE_HOST = 'db'
+else:
+    DATABASE_HOST = 'localhost'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,6 +39,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Environment vars
+DJANGO_DB_USER = os.environ.get("DJANGO_DB_USER")
+DJANGO_DB_NAME = os.environ.get("DJANGO_DB_NAME")
+DJANGO_DB_PASSWORD = os.environ.get("DJANGO_DB_PASSWORD")
+DJANGO_DB_PORT = os.environ.get("DJANGO_DB_PORT")
 
 # Application definition
 
@@ -80,11 +95,11 @@ WSGI_APPLICATION = "simplewebapp.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db',
-        'USER': 'db_user',
-        'PASSWORD': 'fRt36viDyDhqc6a33qxH',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': DJANGO_DB_NAME,
+        'USER': DJANGO_DB_USER,
+        'PASSWORD': DJANGO_DB_PASSWORD,
+        'HOST': DATABASE_HOST,
+        'PORT': DJANGO_DB_PORT,
     }
 }
 

@@ -1,6 +1,6 @@
 from multiprocessing import context
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 import psycopg2
 import os
 
@@ -46,6 +46,15 @@ def cabinet(request):
     return render(request, "cabinet.html", context={'users': user_data_list})
 
 def send_messages(request, user_id):
+    
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if not request.method == 'GET':
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+
+    if not is_ajax:
+        return HttpResponseBadRequest("Invalid request")
+
     data = {
         '0': [
             #data added here
@@ -65,3 +74,4 @@ def send_messages(request, user_id):
         )
     db.close()
     return JsonResponse(data)
+
