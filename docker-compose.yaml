@@ -20,12 +20,21 @@ services:
     volumes:
       - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
 
-  # web:
-  #   build: ./simplewebapp
-  #   ports:
-  #     - 8080:8080
-
   python-seed:
     build: ./python-seed
     depends_on:
+      - db
+
+  web:
+    build: ./simplewebapp
+    ports:
+      - 8081:8081
+    restart: always
+    environment:
+      DJANGO_DB_USER: db_user
+      DJANGO_DB_NAME: db
+      DJANGO_DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      DJANGO_DB_PORT: 5432
+    depends_on:
+      - python-seed
       - db

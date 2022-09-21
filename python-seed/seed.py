@@ -115,7 +115,7 @@ class PostgreSeeder:
         for _ in range(messages_number):
             message_data = OrderedDict(
                 message_id = random.randint(100000000, 1000000000),
-                text = faker.sentence(nb_words=5),
+                text = faker.sentence(nb_words=random.randint(4,12)),
                 user_id = random.choice(user_tg_ids),
                 direction = random.choice(directions),
             )
