@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+
+  # bot:
+  #   build: ./bot
+  
+  db:
+    build: ./postgres-db
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssword
+      # Creds for bot's DB
+      DB_USER: db_user
+      DB_PASS: fRt36viDyDhqc6a33qxH #previous password 
+      DB_NAME: db
+      DJANGO_DB_USER: django_user
+      DJANGO_DB_NAME: django_db
+      DJANGO_DB_PASSWORD: p@ssword
+      
+    volumes:
+      - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
+    healthcheck:
+      test: "exit 0"
+
+  python-seed:
+    build: ./python-seed
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_USER: db_user
+      DB_NAME: db
+      DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      DB_PORT: 5432
+
+  web:
+    build: ./simplewebapp
+    ports:
+      - 8081:8081
+    restart: always
+    environment:
+      DJANGO_DB_USER: django_user
+      DJANGO_DB_NAME: django_db
+      DJANGO_DB_PASSWORD: p@ssword
+      DJANGO_DB_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8081" ]
+        interval: 30s
+        timeout: 10s
+        retries: 5
