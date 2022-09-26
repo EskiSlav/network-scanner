@@ -20,11 +20,10 @@ services:
       DJANGO_DB_USER: django_user
       DJANGO_DB_NAME: django_db
       DJANGO_DB_PASSWORD: p@ssword
-      
     volumes:
       - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
     healthcheck:
-      test: "exit 0"
+      test: ["CMD-SHELL", "pg_isready"]
 
   python-seed:
     build: ./python-seed
@@ -32,9 +31,13 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_USER: db_user
-      DB_NAME: db
-      DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_USER: db_user
+      # DB_NAME: db
+      # DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_PORT: 5432
+      DB_USER: django_user
+      DB_NAME: django_db
+      DB_PASSWORD: p@ssword
       DB_PORT: 5432
 
   web:
@@ -43,10 +46,17 @@ services:
       - 8081:8081
     restart: always
     environment:
+      # DB_USER: db_user
+      # DB_NAME: db
+      # DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_PORT: 5432
       DJANGO_DB_USER: django_user
       DJANGO_DB_NAME: django_db
       DJANGO_DB_PASSWORD: p@ssword
       DJANGO_DB_PORT: 5432
+      DJANGO_ADMIN_USER: admin
+      DJANGO_ADMIN_MAIL: admin@admin.com
+      DJANGO_ADMIN_PASSWORD: "!Q1w2e3r4"
     depends_on:
       db:
         condition: service_healthy
