@@ -45,10 +45,10 @@ DJANGO_DB_USER = os.environ.get("DJANGO_DB_USER")
 DJANGO_DB_NAME = os.environ.get("DJANGO_DB_NAME")
 DJANGO_DB_PASSWORD = os.environ.get("DJANGO_DB_PASSWORD")
 DJANGO_DB_PORT = os.environ.get("DJANGO_DB_PORT")
-DB_USER = os.environ.get("DB_USER")
-DB_NAME = os.environ.get("DB_NAME")
-DB_PASSWORD = os.environ.get("DB_PASSWORD")
-DB_PORT = os.environ.get("DB_PORT")
+# DB_USER = os.environ.get("DB_USER")
+# DB_NAME = os.environ.get("DB_NAME")
+# DB_PASSWORD = os.environ.get("DB_PASSWORD")
+# DB_PORT = os.environ.get("DB_PORT")
 
 # Application definition
 
@@ -105,14 +105,6 @@ DATABASES = {
         'PASSWORD': DJANGO_DB_PASSWORD,
         'HOST': DATABASE_HOST,
         'PORT': DJANGO_DB_PORT,
-    },
-    'db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DATABASE_HOST,
-        'PORT': DB_PORT,
     }
 }
 

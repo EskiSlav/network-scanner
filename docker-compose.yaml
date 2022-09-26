@@ -31,9 +31,13 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_USER: db_user
-      DB_NAME: db
-      DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_USER: db_user
+      # DB_NAME: db
+      # DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_PORT: 5432
+      DB_USER: django_user
+      DB_NAME: django_db
+      DB_PASSWORD: p@ssword
       DB_PORT: 5432
 
   web:
@@ -42,10 +46,10 @@ services:
       - 8081:8081
     restart: always
     environment:
-      DB_USER: db_user
-      DB_NAME: db
-      DB_PASSWORD: fRt36viDyDhqc6a33qxH
-      DB_PORT: 5432
+      # DB_USER: db_user
+      # DB_NAME: db
+      # DB_PASSWORD: fRt36viDyDhqc6a33qxH
+      # DB_PORT: 5432
       DJANGO_DB_USER: django_user
       DJANGO_DB_NAME: django_db
       DJANGO_DB_PASSWORD: p@ssword
