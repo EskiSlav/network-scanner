@@ -61,6 +61,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mainpage",
     "cabinet",
+    'health_check',                             # required
+    'health_check.db',                          # stock Django health checkers
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.migrations',
 ]
 
 MIDDLEWARE = [
