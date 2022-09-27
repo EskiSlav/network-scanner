@@ -6,8 +6,8 @@ class Messages(models.Model):
     user = models.ForeignKey('Users', models.DO_NOTHING, to_field='tg_id')
     direction = models.CharField(max_length=6)
 
+    
     class Meta:
-        managed = False
         db_table = 'messages'
 
 
@@ -18,6 +18,17 @@ class Users(models.Model):
     first_name = models.CharField(max_length=64, blank=True, null=True)
     last_name = models.CharField(max_length=64, blank=True, null=True)
 
+    @property
+    def messages_sent_to_user_number(self):
+        return Messages.objects.filter(user=self.tg_id, direction='to').count()
+
+    @property
+    def messages_received_from_user_number(self):
+        return Messages.objects.filter(user=self.tg_id, direction='from').count()
+
+    @property
+    def total_messages(self):
+        return Messages.objects.filter(user=self.tg_id).count()
+
     class Meta:
-        managed = False
         db_table = 'users'

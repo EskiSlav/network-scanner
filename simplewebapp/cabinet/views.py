@@ -47,7 +47,6 @@ def send_messages(request, user_id):
                 'message_id': message.message_id,
             }
         )
-        print(data)
     
     return JsonResponse(data)
 
