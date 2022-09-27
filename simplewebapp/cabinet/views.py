@@ -50,3 +50,5 @@ def send_messages(request, user_id):
     
     return JsonResponse(data)
 
+def send_message_to_user(request):
+    pass

@@ -1,9 +1,10 @@
 
 class Msg:
-    def __init__(self, user_id, text, direction):
+    def __init__(self, user_id, text, direction, message_id):
         self.user_id = user_id
         self.text = text
         self.direction = direction
+        self.message_id = message_id
 
 
 class User:
