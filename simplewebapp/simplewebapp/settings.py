@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from re import template
 
+
 def is_inside_container():
     if os.path.exists('/.dockerenv'):
         return 1
@@ -44,6 +45,10 @@ DJANGO_DB_USER = os.environ.get("DJANGO_DB_USER")
 DJANGO_DB_NAME = os.environ.get("DJANGO_DB_NAME")
 DJANGO_DB_PASSWORD = os.environ.get("DJANGO_DB_PASSWORD")
 DJANGO_DB_PORT = os.environ.get("DJANGO_DB_PORT")
+# DB_USER = os.environ.get("DB_USER")
+# DB_NAME = os.environ.get("DB_NAME")
+# DB_PASSWORD = os.environ.get("DB_PASSWORD")
+# DB_PORT = os.environ.get("DB_PORT")
 
 # Application definition
 
@@ -56,6 +61,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mainpage",
     "cabinet",
+    'health_check',                             # required
+    'health_check.db',                          # stock Django health checkers
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.migrations',
 ]
 
 MIDDLEWARE = [

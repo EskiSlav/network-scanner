@@ -9,7 +9,7 @@ def index(request):
 
 def login_view(request):
     message = ""
-
+    status = 200
     if request.user.is_authenticated:
         return HttpResponseRedirect('/cabinet/')
         
@@ -26,9 +26,10 @@ def login_view(request):
                 return HttpResponseRedirect('/cabinet/')
             else:
                 message = "Invalid login or password"
+                status = 403
 
     form = LoginForm()
-    return render(request, 'login.html', { 'form': form , 'message': message})
+    return render(request, 'login.html', { 'form': form , 'message': message}, status=status)
 
 
 def logout_view(request):

@@ -1,6 +1,6 @@
 FROM python:3.11.0rc2-alpine3.16
 
-WORKDIR /opt/opinov8bot/
+WORKDIR /opt/opinov8bot-sender/
 
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev curl 

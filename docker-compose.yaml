@@ -2,9 +2,24 @@ version: '3.1'
 
 services:
 
-  # bot:
-  #   build: ./bot
-  
+  bot:
+    build: ./bot
+    restart: always
+    environment:
+      API_TOKEN: "5792605370:AAHH5pdOxnhumdC90LKJo_meooKGuoKajgo"
+      DJANGO_DB_USER: django_user
+      DJANGO_DB_NAME: django_db
+      DJANGO_DB_PASSWORD: p@ssword
+      DJANGO_DB_PORT: 5432
+
+  bot-sender:
+    build: ./bot-sender
+    ports:
+      - 8082:8082
+    restart: always
+    environment:
+      API_TOKEN: "5792605370:AAHH5pdOxnhumdC90LKJo_meooKGuoKajgo"
+    
   db:
     build: ./postgres-db
     ports:
@@ -13,10 +28,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: P@ssword
-      # Creds for bot's DB
-      DB_USER: db_user
-      DB_PASS: fRt36viDyDhqc6a33qxH #previous password 
-      DB_NAME: db
+      # Creds for django_db 
       DJANGO_DB_USER: django_user
       DJANGO_DB_NAME: django_db
       DJANGO_DB_PASSWORD: p@ssword
@@ -25,16 +37,16 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
 
-  python-seed:
-    build: ./python-seed
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DB_USER: db_user
-      DB_NAME: db
-      DB_PASSWORD: fRt36viDyDhqc6a33qxH
-      DB_PORT: 5432
+  # python-seed:
+  #   build: ./python-seed
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     DB_USER: django_user
+  #     DB_NAME: django_db
+  #     DB_PASSWORD: p@ssword
+  #     DB_PORT: 5432
 
   web:
     build: ./simplewebapp

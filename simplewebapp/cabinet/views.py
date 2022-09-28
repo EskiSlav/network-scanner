@@ -1,50 +1,31 @@
-from multiprocessing import context
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
-import psycopg2
 import os
+from cabinet.models import Users, Messages
+import requests
+from cabinet.forms import MessageForm
+from urllib.parse import unquote
 
 def is_inside_container():
     if os.path.exists('/.dockerenv'):
         return 1
     return 0
 
-class DB:
-    def __init__(self):
-        host = "db" if is_inside_container() else "localhost"
-        connection_str = "host={} port=5432 dbname=db user=db_user password=fRt36viDyDhqc6a33qxH".format(host)
-        self.connection = psycopg2.connect(connection_str)
-        self.cursor = self.connection.cursor()
-    
-    def get_data_for_user_side(self):
-        sql = '''
-        SELECT tg_id, username, first_name, last_name FROM users'''
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
-
-    def get_data_for_messages_side(self, user_id):
-        sql = '''
-        SELECT user_id, text, direction, message_id FROM messages WHERE user_id=%s '''
-        self.cursor.execute(sql, (user_id,))
-        return self.cursor.fetchall()
-
-    def close(self):
-        self.connection.close()
-
 
 def cabinet(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login/')
-    
-    db = DB()
-    user_data_list = db.get_data_for_user_side()
-    user_data_list = [ {'id': user[0], 
-                        'username': user[1], 
-                        'first_name': user[2], 
-                        'last_name': user[3] } for user in user_data_list ]
-    db.close()
-    return render(request, "cabinet.html", context={'users': user_data_list})
 
+    user_data_list = [ {'id': user.tg_id, 
+                        'username': user.username, 
+                        'first_name': user.first_name, 
+                        'last_name': user.last_name } for user in Users.objects.all() ]
+    
+    
+    form = MessageForm()
+    return render(request, "cabinet.html", context={'users': user_data_list, 'form': form})
+    
 def send_messages(request, user_id):
     
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -60,18 +41,70 @@ def send_messages(request, user_id):
             #data added here
         ]
     }
-    # user_id = int(request.path.split('/')[-2])
-    db = DB()
-    messages_data_list = db.get_data_for_messages_side(user_id)
-    for message in messages_data_list:
+    
+    for message in Messages.objects.filter(user_id=user_id):
         data['0'].append(
             {
-                'user_id': message[0],
-                'text': message[1],
-                'direction': message[2],
-                'message_id': message[3],
+                'user_id': message.user.tg_id,
+                'text': message.text,
+                'direction': message.direction,
+                'message_id': message.message_id,
             }
         )
-    db.close()
+    
     return JsonResponse(data)
 
+
+def send_message(request, user_id, text):
+
+    if is_inside_container():
+        host = "bot-sender"
+    else:
+        host = "localhost"
+
+    url = f"http://{host}:8082/send_message/{user_id}/{text}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        user = Users.objects.filter(tg_id=user_id)[0]
+        msg = Messages.objects.create(
+            message_id=user.total_messages+1,
+            text=text,
+            user=user,
+            direction="to"
+        )
+        msg.save()
+    data = {
+        'status': response.status_code, 
+        'method': request.method 
+    }
+    return JsonResponse(data, status=response.status_code)
+
+def send_message_POST(request):
+
+    if is_inside_container():
+        host = "bot-sender"
+    else:
+        host = "localhost"
+
+    if request.method == "POST":
+        POST_data = json.loads(request.body)
+        text = POST_data['text']
+        user_id = POST_data['user_id']
+    
+    url = f"http://{host}:8082/send_message/{user_id}/{text}"
+    print(url)
+    response = requests.get(url)
+    if response.status_code == 200:
+        user = Users.objects.filter(tg_id=user_id)[0]
+        msg = Messages.objects.create(
+            message_id=user.total_messages+1,
+            text=unquote(text),
+            user=user,
+            direction="to"
+        )
+        msg.save()
+    data = {
+        'status': response.status_code, 
+        'method': request.method 
+    }
+    return JsonResponse(data, status=response.status_code)
