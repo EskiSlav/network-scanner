@@ -1,10 +1,11 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 import os
 from cabinet.models import Users, Messages
 import requests
 from cabinet.forms import MessageForm
-
+from urllib.parse import unquote
 
 def is_inside_container():
     if os.path.exists('/.dockerenv'):
@@ -23,7 +24,7 @@ def cabinet(request):
     
     
     form = MessageForm()
-    return render(request, "cabinet.html", context={'users': user_data_list, 'form': form })
+    return render(request, "cabinet.html", context={'users': user_data_list, 'form': form})
     
 def send_messages(request, user_id):
     
@@ -56,9 +57,6 @@ def send_messages(request, user_id):
 
 def send_message(request, user_id, text):
 
-    # if request.method == "POST":
-    #     text = request.POST['text']
-    #     user_id = request.POST['user_id']
     if is_inside_container():
         host = "bot-sender"
     else:
@@ -75,4 +73,38 @@ def send_message(request, user_id, text):
             direction="to"
         )
         msg.save()
-    return JsonResponse({'status': response.status_code}, status=response.status_code)
+    data = {
+        'status': response.status_code, 
+        'method': request.method 
+    }
+    return JsonResponse(data, status=response.status_code)
+
+def send_message_POST(request):
+
+    if is_inside_container():
+        host = "bot-sender"
+    else:
+        host = "localhost"
+
+    if request.method == "POST":
+        POST_data = json.loads(request.body)
+        text = POST_data['text']
+        user_id = POST_data['user_id']
+    
+    url = f"http://{host}:8082/send_message/{user_id}/{text}"
+    print(url)
+    response = requests.get(url)
+    if response.status_code == 200:
+        user = Users.objects.filter(tg_id=user_id)[0]
+        msg = Messages.objects.create(
+            message_id=user.total_messages+1,
+            text=unquote(text),
+            user=user,
+            direction="to"
+        )
+        msg.save()
+    data = {
+        'status': response.status_code, 
+        'method': request.method 
+    }
+    return JsonResponse(data, status=response.status_code)

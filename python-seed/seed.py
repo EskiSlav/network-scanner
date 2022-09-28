@@ -61,7 +61,7 @@ class PostgreSeeder:
             CREATE TABLE IF NOT EXISTS messages
             (
                 id serial NOT NULL,
-                message_id bigint NOT NULL UNIQUE,
+                message_id bigint NOT NULL,
                 text text NOT NULL,
                 user_id bigint NOT NULL,
                 direction character varying(6) NOT NULL,
