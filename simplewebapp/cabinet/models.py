@@ -1,7 +1,7 @@
 from django.db import models
 
 class Messages(models.Model):
-    message_id = models.BigIntegerField(unique=True)
+    message_id = models.BigIntegerField()
     text = models.TextField()
     user = models.ForeignKey('Users', models.DO_NOTHING, to_field='tg_id')
     direction = models.CharField(max_length=6)

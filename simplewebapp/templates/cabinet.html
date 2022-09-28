@@ -52,7 +52,7 @@
       }
 
       .messages-wrapper {
-        margin: 10px 25vh;
+        margin: 10px 15%;
         overflow: auto;
         /* height: 60vh; */
       }
@@ -61,7 +61,7 @@
       .users-side {
         margin: 0;
         padding: 0;
-        min-width: 275px;
+        min-width: 325px;
         /* width: 30%; */
         display: block;
         background-color: red;
@@ -235,8 +235,9 @@
         </div>
         <div class="input-footer">
           <div class="bg-darkcenter-block text-center message-form">
+            {% csrf_token %}
             {{ form.text }}
-            {{ form.user_id }}
+            {{ form.user_id.as_hidden }}
             <div class="btn my-btn send-message-btn">Send</div>
           </div>
         </div>
@@ -298,7 +299,7 @@
             })
             user.classList.add("active-user");
             let user_id = parseInt(document.querySelector(".active-user span").textContent, 10)
-            document.querySelectorAll(".message-form input")[1].value = user_id
+            document.querySelectorAll(".message-form input")[2].value = user_id
           })
         })
     </script>
@@ -306,14 +307,26 @@
       function send_message() {
         inputs = document.querySelectorAll(".message-form input");
         
-        text = encodeURIComponent(inputs[0].value)
-        user_id = inputs[1].value
+        // text = encodeURIComponent(inputs[1].value)
+        // user_id = inputs[2].value
       
-        fetch('/cabinet/send_message/' + user_id + '/' + text, {
-          method: 'GET',
-          headers: {
+        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value
+        
+        body = JSON.stringify({  
+          "text": encodeURIComponent(inputs[1].value),
+          "user_id": inputs[2].value,
+        })
+        console.log(body)
+        headers = {
+            "X-Requested-With": "XMLHttpRequest",
             'Content-Type': 'application/json',
-          }
+            'X-CSRFToken': csrf
+        }
+
+        fetch('/cabinet/send_message/', {
+          method: 'POST',
+          headers: headers,
+          body: body
         })
           .then((response) => response.json())
           .then((data) => {
@@ -326,7 +339,7 @@
             img.src = "https://cdn-icons-png.flaticon.com/512/194/194279.png";
 
             let p = document.createElement("p");
-            p.textContent = decodeURIComponent(text);
+            p.textContent = decodeURIComponent(inputs[1].value);
         
             container.classList.add("darker");
             img.classList.add('right');
@@ -339,7 +352,7 @@
       }
 
       document.querySelector(".send-message-btn").onclick = send_message
-
+      
     </script>
     <!-- <div class="container">
       <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
