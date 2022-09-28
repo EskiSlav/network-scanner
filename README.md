@@ -48,3 +48,7 @@ After a few seconds you can access the server at `http://localhost:8081/login`.
 `db` -- PostgreSQL database which is used to store data about users who write to bot and for Django database also.
 
 `python-seeder` -- service that can be uncommented to fill the database with mockup messages and users. If this service in use then you won't be able to message fake users.
+
+## Checking Health
+
+`http://localhost:8081/health` -- get health of services.
