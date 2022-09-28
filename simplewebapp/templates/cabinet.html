@@ -32,19 +32,11 @@
         float: right;
         /* height: 100%; */
       }
-      .sent-message {
-
-      }
-      .received-message {
-
-      }
       .input-footer {
         position: relative;
         display: block;
         text-align: center;
         margin: 0 25vh 1.5rem 25vh;
-        
-        
       }
       .input {
         width: 100%;
@@ -190,8 +182,7 @@
       }
     </style>
     <title>Bot Manager</title>
-
-  </head>
+    </head>
   <body>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -241,11 +232,13 @@
       <div class="messages-side" style="background-color: rgb(54, 105, 54);">
         <div class="messages-wrapper">
           No messages here! Select chat
-
         </div>
         <div class="input-footer">
-          <input class="input form-control me-2" placeholder="Message" aria-label="Message">
-          <button class="btn my-btn" type="submit">Send</button>
+          <div class="bg-darkcenter-block text-center message-form">
+            {{ form.text }}
+            {{ form.user_id }}
+            <div class="btn my-btn send-message-btn">Send</div>
+          </div>
         </div>
       </div>
     </div>    
@@ -265,7 +258,7 @@
         user.addEventListener("click", (e) => {
           // console.log(user);
           let url = "/cabinet/messages/user/" + user.querySelector(".user_id").textContent;
-          console.log(url)
+          console.log(url);
           fetch(url, {
           method: "GET",
           headers: {
@@ -304,9 +297,49 @@
               user.classList.remove("active-user");
             })
             user.classList.add("active-user");
+            let user_id = parseInt(document.querySelector(".active-user span").textContent, 10)
+            document.querySelectorAll(".message-form input")[1].value = user_id
           })
         })
+    </script>
+    <script>
+      function send_message() {
+        inputs = document.querySelectorAll(".message-form input");
         
+        text = encodeURIComponent(inputs[0].value)
+        user_id = inputs[1].value
+      
+        fetch('/cabinet/send_message/' + user_id + '/' + text, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Success:', data);
+            let messages_wrapper = document.querySelector(".messages-wrapper");
+            let container = document.createElement("div");
+            container.classList.add("container");
+              
+            let img = document.createElement("img");
+            img.src = "https://cdn-icons-png.flaticon.com/512/194/194279.png";
+
+            let p = document.createElement("p");
+            p.textContent = decodeURIComponent(text);
+        
+            container.classList.add("darker");
+            img.classList.add('right');
+            
+            container.append(img);
+            container.append(p);
+            
+            messages_wrapper.append(container);
+          })
+      }
+
+      document.querySelector(".send-message-btn").onclick = send_message
+
     </script>
     <!-- <div class="container">
       <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
