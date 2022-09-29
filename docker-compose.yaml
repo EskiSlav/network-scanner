@@ -6,11 +6,14 @@ services:
     build: ./bot
     restart: always
     environment:
-      API_TOKEN: "5792605370:AAHH5pdOxnhumdC90LKJo_meooKGuoKajgo"
-      DJANGO_DB_USER: django_user
-      DJANGO_DB_NAME: django_db
-      DJANGO_DB_PASSWORD: p@ssword
-      DJANGO_DB_PORT: 5432
+      API_TOKEN: ${API_TOKEN}
+      DJANGO_DB_USER: ${DJANGO_DB_USER}
+      DJANGO_DB_NAME: ${DJANGO_DB_NAME}
+      DJANGO_DB_PASSWORD: ${DJANGO_DB_PASSWORD}
+      DJANGO_DB_PORT: ${DJANGO_DB_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
 
   bot-sender:
     build: ./bot-sender
@@ -18,7 +21,10 @@ services:
       - 8082:8082
     restart: always
     environment:
-      API_TOKEN: "5792605370:AAHH5pdOxnhumdC90LKJo_meooKGuoKajgo"
+      API_TOKEN: ${API_TOKEN}
+    depends_on:
+      db:
+        condition: service_healthy
     
   db:
     build: ./postgres-db
@@ -26,12 +32,11 @@ services:
       - 5432:5432
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: P@ssword
-      # Creds for django_db 
-      DJANGO_DB_USER: django_user
-      DJANGO_DB_NAME: django_db
-      DJANGO_DB_PASSWORD: p@ssword
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_DB_USER: ${DJANGO_DB_USER}
+      DJANGO_DB_NAME: ${DJANGO_DB_NAME}
+      DJANGO_DB_PASSWORD: ${DJANGO_DB_PASSWORD}
     volumes:
       - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
     healthcheck:
@@ -54,13 +59,13 @@ services:
       - 8081:8081
     restart: always
     environment:
-      DJANGO_DB_USER: django_user
-      DJANGO_DB_NAME: django_db
-      DJANGO_DB_PASSWORD: p@ssword
-      DJANGO_DB_PORT: 5432
-      DJANGO_ADMIN_USER: admin
-      DJANGO_ADMIN_MAIL: admin@admin.com
-      DJANGO_ADMIN_PASSWORD: "!Q1w2e3r4"
+      DJANGO_DB_USER: ${DJANGO_DB_USER}
+      DJANGO_DB_NAME: ${DJANGO_DB_NAME}
+      DJANGO_DB_PASSWORD: ${DJANGO_DB_PASSWORD}
+      DJANGO_DB_PORT: ${DJANGO_DB_PORT}
+      DJANGO_ADMIN_USER: ${DJANGO_ADMIN_USER}
+      DJANGO_ADMIN_MAIL: ${DJANGO_ADMIN_MAIL}
+      DJANGO_ADMIN_PASSWORD: ${DJANGO_ADMIN_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
