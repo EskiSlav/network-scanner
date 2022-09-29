@@ -35,7 +35,7 @@ class TestViews(TestCase):
         
 
     def test_index_redirecting(self):
-        response = self.client.get(resolve('index'), follow=True)
+        response = self.client.get(reverse('index'), follow=True)
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'login.html')
