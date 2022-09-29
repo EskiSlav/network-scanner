@@ -3,9 +3,9 @@
 
 
 ## How To Use
-Before starting it up make sure that all the credentials are provided in `docker-compose.yaml` file.
+Before starting it up make sure that all the credentials are provided in `.env` file.
 
-You can run application as is but it is reccomended to change poswords, database names and etc. for using in production env.
+You can run application as is but it is recommended to change passwords, database names and etc. for using in production env.
 
 `API_TOKEN` is used by `bot-sender` and `bot`
 
