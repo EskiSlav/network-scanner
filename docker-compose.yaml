@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-
   bot:
     build: ./bot
+    image: eskislav/bot
     restart: always
     environment:
       API_TOKEN: ${API_TOKEN}
@@ -17,6 +17,7 @@ services:
 
   bot-sender:
     build: ./bot-sender
+    image: eskislav/bot-sender
     ports:
       - 8082:8082
     restart: always
@@ -28,6 +29,7 @@ services:
     
   db:
     build: ./postgres-db
+    image: eskislav/db
     ports:
       - 5432:5432
     restart: always
@@ -55,6 +57,7 @@ services:
 
   web:
     build: ./simplewebapp
+    image: eskislav/web
     ports:
       - 8081:8081
     restart: always
