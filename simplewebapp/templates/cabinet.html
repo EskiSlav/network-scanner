@@ -30,25 +30,29 @@
         display: flex;
         flex-grow: 1;
         float: right;
+        background-color: #c5c5c5;
         /* height: 100%; */
       }
       .input-footer {
         position: relative;
-        display: block;
+        /* display: block; */
         text-align: center;
-        margin: 0 25vh 1.5rem 25vh;
+        margin: 0 auto 1.5rem  auto;
+        padding: 10px;
+        width: 60%;
+        min-width: 600px;
+      }
+
+      .input-footer input {
+        padding: 5px;
+        width: 80%;
+        
       }
       .input {
         width: 100%;
         display: block;
         margin: 0;
         float: left;
-      }
-      .my-btn {
-        border: 1px solid rgb(201, 201, 201);
-        color: rgb(201, 201, 201);
-        float: right;
-        
       }
 
       .messages-wrapper {
@@ -64,7 +68,8 @@
         min-width: 325px;
         /* width: 30%; */
         display: block;
-        background-color: red;
+        
+        background-color:aliceblue;
         float: left;
         flex-grow: 1;
         overflow: auto;
@@ -126,7 +131,7 @@
         top: 10%;
       }
       .active-user {
-        background-color: rgb(34, 117, 34);
+        background-color: rgb(87, 162, 87);
       }
       
 
@@ -180,6 +185,15 @@
         float: left;
         color: #999;
       }
+      .send-message-btn {
+        border: 1px solid rgb(55, 55, 55);
+        color: rgb(49, 49, 49);
+        float: right;
+        width: 100px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        text-align: center;
+      }
     </style>
     <title>Bot Manager</title>
     </head>
@@ -229,7 +243,7 @@
         </div>
         {% endfor %}
       </div>  
-      <div class="messages-side" style="background-color: rgb(54, 105, 54);">
+      <div class="messages-side">
         <div class="messages-wrapper">
           No messages here! Select chat
         </div>
@@ -238,7 +252,7 @@
             {% csrf_token %}
             {{ form.text }}
             {{ form.user_id.as_hidden }}
-            <div class="btn my-btn send-message-btn">Send</div>
+            <div class="send-message-btn my-btn">Send</div>
           </div>
         </div>
       </div>
@@ -290,6 +304,7 @@
               container.append(p);
               
               messages_wrapper.append(container);
+              messages_wrapper.scrollTop = messages_wrapper.scrollHeight;
             });
           });
           });
@@ -348,6 +363,7 @@
             container.append(p);
             
             messages_wrapper.append(container);
+            messages_wrapper.scrollTop = messages_wrapper.scrollHeight;
           })
       }
 
