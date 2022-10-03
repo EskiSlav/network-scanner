@@ -8,6 +8,7 @@ class Messages(models.Model):
 
     
     class Meta:
+        managed = False
         db_table = 'messages'
 
 
@@ -32,3 +33,4 @@ class Users(models.Model):
 
     class Meta:
         db_table = 'users'
+        managed = False

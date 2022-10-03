@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS messages
 (
     id serial NOT NULL,
-    message_id bigint NOT NULL UNIQUE,
+    message_id bigint NOT NULL,
     text text NOT NULL,
     user_id bigint NOT NULL,
     direction character varying(6) NOT NULL,
@@ -33,3 +33,7 @@ INSERT INTO users(tg_id, is_bot, username, first_name, last_name)
     VALUES (559986402, False, 'lookwiderr', 'Oleksandra', 'Chazova');
 INSERT INTO users(tg_id, is_bot, username, first_name, last_name) 
     VALUES (394773843, False, 'eskislav', 'Viacheslav', 'Kozachok');
+INSERT INTO users(tg_id, is_bot, username, first_name) 
+    VALUES (380263681, False, 'mehanikm', 'Mykhailo');
+
+

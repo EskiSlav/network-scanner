@@ -12,6 +12,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 
 EOSQL
 
-# OrderedDict([('user_id', 559986402), ('text', 'Hi, businka Viacheslav EchoBot!')])
-# OrderedDict([('user_id', 394773843), ('text', 'іва')])
+psql -v ON_ERROR_STOP=1 --username "$DJANGO_DB_USER" --dbname "$DJANGO_DB_NAME" -f /opt/seed-data/seed.sql
+
 
