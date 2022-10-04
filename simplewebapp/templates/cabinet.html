@@ -273,7 +273,7 @@
         user.addEventListener("click", (e) => {
           // console.log(user);
           let url = "/cabinet/messages/user/" + user.querySelector(".user_id").textContent;
-          console.log(url);
+          // console.log(url);
           fetch(url, {
           method: "GET",
           headers: {
@@ -284,7 +284,7 @@
           .then(data => {
             let messages_wrapper = document.querySelector(".messages-wrapper");
             messages_wrapper.innerHTML = ''
-            console.log(data);
+            // console.log(data);
             data[0].forEach((message) => {
               let container = document.createElement("div");
               container.classList.add("container");
@@ -368,7 +368,19 @@
       }
 
       document.querySelector(".send-message-btn").onclick = send_message
-      
+    </script>
+    <script>
+      async function update() {
+        while(true) {
+          // console.log('cycle');
+          await new Promise(r => setTimeout(r, 2000));
+          if (document.querySelector(".active-user") == null){
+            continue;
+          }
+          document.querySelector(".active-user").dispatchEvent(new Event('click'));
+        }
+      }
+    update();
     </script>
     <!-- <div class="container">
       <img src="https://cdn-icons-png.flaticon.com/512/194/194279.png" alt="Avatar">
