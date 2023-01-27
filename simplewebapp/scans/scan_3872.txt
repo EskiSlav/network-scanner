@@ -1,0 +1,7 @@
+---- SYN Scan started ----
+Host: 127.0.0.1: Port [5430, 5431, 5432, 5433, 5434] is closed
+Host: 127.0.0.1: Port [5430, 5431, 5432, 5433, 5434] is closed
+Host: 127.0.0.1: Port [5430, 5431, 5432, 5433, 5434] is open
+Host: 127.0.0.1: Port [5430, 5431, 5432, 5433, 5434] is closed
+Host: 127.0.0.1: Port [5430, 5431, 5432, 5433, 5434] is closed
+-------- FINISHED --------

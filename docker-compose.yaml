@@ -1,32 +1,6 @@
 version: '3.1'
 
 services:
-  bot:
-    build: ./bot
-    image: eskislav/bot
-    restart: always
-    environment:
-      API_TOKEN: ${API_TOKEN}
-      DJANGO_DB_USER: ${DJANGO_DB_USER}
-      DJANGO_DB_NAME: ${DJANGO_DB_NAME}
-      DJANGO_DB_PASSWORD: ${DJANGO_DB_PASSWORD}
-      DJANGO_DB_PORT: ${DJANGO_DB_PORT}
-    depends_on:
-      db:
-        condition: service_healthy
-
-  bot-sender:
-    build: ./bot-sender
-    image: eskislav/bot-sender
-    ports:
-      - 8082:8082
-    restart: always
-    environment:
-      API_TOKEN: ${API_TOKEN}
-    depends_on:
-      db:
-        condition: service_healthy
-    
   db:
     build: ./postgres-db
     image: eskislav/db
@@ -43,17 +17,6 @@ services:
       - "./postgres-db/db-config:/docker-entrypoint-initdb.d/"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-
-  # python-seed:
-  #   build: ./python-seed
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     DB_USER: django_user
-  #     DB_NAME: django_db
-  #     DB_PASSWORD: p@ssword
-  #     DB_PORT: 5432
 
   web:
     build: ./simplewebapp
