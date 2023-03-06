@@ -87,35 +87,31 @@ class Scanner:
 
         out = open(f"scans/scan_{scan_id}.txt", 'w')
         
-        
         out.write("---- SYN Scan started ----\n")
-
-        if isinstance(dport, list):
-            for port in dport:
-                packet = IP(dst=dhost)/TCP(dport=port, flags="S")
-                response = sr1(packet, timeout=10, verbose=0)
-                if response:
-                    if response[TCP].flags == 18:
-                        out.write(f"Host: {dhost}: Port {dport} is open\n")
-                    else:
-                        out.write(f"Host: {dhost}: Port {dport} is closed\n")
-                else:
-                    out.write("Port", dport, "is closed or filtered\n")
-        else:
+        def _syn_host_scan(dhost=None, dport=None):
             # Create a SYN packet
             packet = IP(dst=dhost)/TCP(dport=dport, flags="S")
             # Send the packet and receive the response
+            logger.debug(f"{packet=}")
             response = sr1(packet, timeout=10, verbose=0)
 
             # Check if the port is open or closed
-            
             if response:
+                logger.debug(f"{response=}")
+                logger.debug(f"{response[TCP]=}")
+                logger.debug(f"{response[TCP].flags=}")
                 if response[TCP].flags == 18:
                     out.write(f"Host: {dhost}: Port {dport} is open\n")
                 else:
                     out.write(f"Host: {dhost}: Port {dport} is closed\n")
             else:
                 out.write("Port", dport, "is closed or filtered\n")
+
+        if isinstance(dport, list):
+            for port in dport:
+                _syn_host_scan(dhost, port)
+        else:
+            _syn_host_scan(dhost, dport)
 
         out.write("-------- FINISHED --------")
         out.close()
@@ -129,7 +125,6 @@ class Scanner:
 
     def icmp_scan(self, dnetwork=None, dhost=None, dport=None, scan_type=None, *args, **kwargs):
         logger.debug("icmp_scan started...")
-
 
 
     # def ping_scan(self, network_range):        
